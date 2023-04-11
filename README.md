@@ -2,82 +2,84 @@
 ## Profesor: Andrés Rubio del Río
 ## Alumno:
 
-Al cliente le ha gustado bastante la aplicación, pero nos comenta que por favor añadamos persistencia a los datos introducidos, ya que tal y como está ahora la aplicación no es funcional. Por tanto, en este **tercer sprint** añadiremos persistencia a los datos utilizando para ello ficheros XML, para lo que sustituiremos el modelo que teníamos de memoria, por un modelo de ficheros. También aprovecharemos para modificar algún detalle del que nos hemos dado cuenta:
+A nuestro cliente le ha gustado bastante la aplicación desarrollada hasta ahora. Sin embargo, nos comenta que debemos realizar algunas mejoras a la anterior versión y nuevas funcionalidades que le gustaría que tuviese. Todo ello será abordado en este **tercer spring**.
 
-- Los métodos `getCantidad` de las interfaces de la capa de negocio y las clases que lo implementan no son necesarios, es más, ni siquiera los exponemos en nuestro modelo, por lo que los eliminaremos.
-- En nuestro `Modelo` podemos realizar en el constructor lo que se realiza en el constructor de la implementación `ModeloCascada`, para que si luego tenemos más implementaciones no tengan que repetir dicho código.
+Lo primero que nos comenta es que la forma en que se realizan las devoluciones de  los alquileres no es operativa y que le gustaría poder realizarlas simplemente indicando el cliente que la quiere realizar (su DNI) o el vehículo que se quiere devolver (su matrícula). 
 
-Dado que nuestra aplicación la tenemos bien diseñada hasta el momento, sólo tendremos que modificar el modelo de la misma dejando todo lo anterior tal y como estaba.
+Otra cosa que le gustaría al cliente es que la aplicación ofreciese estadísticas mensuales por el tipo de vehículo.
 
-Al **analizar** cómo **llevaremos a cabo la persistencia**, hemos decidido leer los ficheros al arrancar la aplicación, gestionarlos en memoria y almacenarlos en los mismos ficheros al cerrar la aplicación. Cada clase de la implementación de la capa `ficheros` leerá su fichero y lo almacenará en una lista tal y como se hacía en la versión de memoria. Pero con esto nos surge algún que otro problema:
+Para llevar a cabo estas modificaciones, debes realizar las siguientes pasos:
 
-- Los alquileres guardan una referencia del cliente y del vehículo, pero dicha clase no es capaz de comunicarse con las otras para poder buscar dichas referencias. Para solucionar este problema vamos a utilizar el **patrón singlenton**, con lo que sólo podremos tener una única instancia de cada clase de la capa de ficheros. Con esto conseguimos que no haya más de una instancia que pueda leer el fichero y posteriormente modificarlo, por lo que podremos acceder sin problemas desde los alquileres a los clientes y a los vehículos para buscar las referencias.
-- Pero esto acarrea otro problema y es que estamos exponiendo dichas instancias a toda la aplicación, lo que podría permitir que desde cualquier lugar se pueda acceder a las mismas provocando efectos indeseados y rompiendo con el principio de ocultación de la información. Para solucionarlo jugaremos con las visibilidades. Haremos que los métodos que nos devuelven la instancia de cada clase (`getInstancia`) tengan una **visibilidad de paquete**, con lo que sólo podremos acceder a ellas desde el paquete `ficheros`. También tenemos que hacer que la factoría de fuente de datos sólo permita crearlas desde el mismo paquete para que sólo se puedan crear fuentes de datos desde la capa de modelo. Por último debemos modificar el constructor del `Modelo` para que no acepte una fuente de datos, sino el tipo de la fuente de datos y sea él el que la cree. Y finalmente modificaremos la clase `MainApp`, para que en vez de pasarle la fuente de datos, se le pase el tipo.
+####Enumerado Accion
 
+Añade las tres nuevas acciones que puede realizar el usuario: 
 
-En este repositorio de GitHub hay un esqueleto de proyecto **gradle** con las dependencias necesarias del proyecto y que ya lleva incluidos todos los test necesarios que el programa debe pasar.
+1.-**DEVOLVER_ALQUILER_CLIENTE**: Devuelve el alquiler realizado por un cliente a partir del dni del mismo.
 
-Para ello te muestro un diagrama de clases para la capa del modelo que es la única que varía y poco a poco te iré explicando los diferentes pasos a realizar:
+2.-**DEVOLVER_ALQUILER_VEHICULO**: Devuelve el alquiler del vehículo a partir de la matrícula del mismo. 
+
+3.-**MOSTRAR_ESTADITICAS_MENSUALES**: Muestra estadísticas mensuales por tipo de vehículo.
+
+![Enumerado Accion](Accion.png)
+
+####Vista Texto
+
+1.-Modifica la clase `VistaTexto` para se puedan realizar las devoluciones por cliente o por vehículo y no por alquiler.
+
+2.-Implementa el método `inicializarEstadisticas` que devolverá un Mapa de tipo `EnumMap`, cuya clave será el tipo de vehículo y que tendrá inicialmente un valor 0 para todos los tipos de vehículos.
+
+3.-Implementa el método `mostrarEstadisticasMensualesTipoVehiculo` que utilizará el método `inicializarEstadisticas` para inicializar el mapa, y que mostrará por pantalla el número total de veces que ha sido alquilado cada vehículo en el mes indicado por el usuario (debe usarse el método `leerMes` de la clase `Consola`).
+
+![Vista Texto](VistaTexto.png)
+
+####Controlador
+
+Modifica la clase `Controlador` para que se puedan realizar devoluciones por cliente y por vehículo.
+
+![Controlador](Controlador.png)
+
+####Modelo y ModeloCascada
+
+Modifica las clases `Modelo` y `ModeloCascada` para que se puedan realizar devoluciones por cliente y por vehículo.
+
+![Modelo y Modelo Cascada](Modelo_ModeloCascada.png)
+
+####Alquileres
+
+Elimina el anterior método `devolver` de la clase `Alquileres` e implementa los dos nuevos métodos devolver para un cliente dado y para un turismo dado tal y como pedía nuestro cliente. Deberás implementar los métodos `getAlquilerAbierto` para un cliente dado y para un turismo dado y que se usarán en los métodos anteriores. Lógicamente, también deberás actualizar la interfaz `IAlquileres`. Realiza un commit.
+
+![Alquileres](Alquileres.png)
+
+Nuestro cliente está tan encantado con nuestro trabajo que  nos pide que por favor añadamos persistencia a los datos introducidos, ya que tal y como está ahora la aplicación no es funcional. Por tanto, también en este **tercer spring** añadiremos persistencia a los datos utilizando para ello ficheros XML, para lo cual añadiremos un paquete de ficheros con todo lo neceario para lograr dicha persistencia.
+
+Al **analizar** cómo **llevaremos a cabo la persistencia**, hemos decidido leer los **ficheros** al arrancar la aplicación, gestionarlos en memoria y almacenarlos en los mismos ficheros al cerrar la aplicación. Cada clase de la implementación de la capa ficheros leerá su fichero y lo almacenará en una lista tal y como se hacía en la versión de memoria. Pero con esto nos surge algún que otro problema:
+
+Los alquileres guardan una referencia del cliente y del vehículo, pero dicha clase no es capaz de comunicarse con las otras para poder buscar dichas referencias. Para solucionar este problema vamos a utilizar el **patrón singlenton**, con lo que sólo podremos tener una única instancia de cada clase de la capa de ficheros. Con esto conseguimos que no haya más de una instancia que pueda leer el fichero y posteriormente modificarlo, por lo que podremos acceder sin problemas desde los alquileres a los clientes y a los vehículos para buscar las referencias.
+
+Pero esto acarrea otro problema y es que estamos exponiendo dichas instancias a toda la aplicación, lo que podría permitir que desde cualquier lugar se pueda acceder a las mismas provocando efectos indeseados y rompiendo con el principio de ocultación de la información. Para solucionarlo jugaremos con las visibilidades. Haremos que los métodos que nos devuelven la instancia de cada clase (`getInstancia`) tengan una visibilidad de paquete, con lo que sólo podremos acceder a ellas desde el **paquete ficheros**. También tenemos que hacer que la factoría de fuente de datos sólo permita crearlas desde el mismo paquete para que sólo se puedan crear fuentes de datos desde la capa de modelo. Por último debemos modificar el constructor del `Modelo` para que no acepte una fuente de datos, sino el tipo de la fuente de datos y sea él el que la cree. Y finalmente modificaremos la clase `MainApp`, para que en vez de pasarle la fuente de datos, se le pase el tipo.
+Para todo lo relacionado con la persistencia, te muestro un diagrama de clases para la capa del modelo que es la única que varía:
 
 ![Diagrama de clases de la tarea](src/main/resources/uml/alquilerVehiculos.png)
 
 
-#### Primeros Pasos
-- Lo primero que debes hacer es un **fork** del repositorio donde he colocado el esqueleto de este proyecto.
-- Clona tu repositorio remoto recién copiado en GitHub a un repositorio local.
-- Modifica el archivo `README.md` para que incluya tu nombre en el apartado "Alumno".
-- Copia los ficheros del directorio `src/main/java` de tu tarea anterior al repositorio local. Realiza tu **primer commit**.
+1.-Actualiza la clase `FactoriaFuenteDatos` para que contemple la opción de ficheros. Realiza un commit.
+2.-Crea la clase `FuenteDatosFicheros` en la que cada método crear de cada colección devolverá la instancia de la colección correspondiente (método `getInstancia`).
+3.- Implementa el **patrón singlenton** en cada una de las clase de la capa ficheros tal y como se indica en el diagrama de clases.
+4.-Cambia la visibilidad (paquete) en el método crear en la clase FactoriaFuenteDatos.
+5.-Cambia el constructor de Modelo (y, por consecuencia de ModeloCascada) para que acepte un tipo de factoría de fuente de datos y además, la cree.
+6.-Cambia la clase MainApp para que todo siga funcionando correctamente.
+7.-Crea la clase UtilidadesXML con los métodos que se indican en el diagrama.
+8.-Modifica la clase Clientes del paquete ficheros, para que al comenzar lea el fichero XML de clientes, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar clientes.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
 
+![XML Clientes](xml_clientes.png)
 
-#### Modificación de algunos detalles
-- Refactoriza el modelo para que pasa a ser `ficheros` en vez de `memoria`, modificando todo lo que se indica en el diagrama de clases.
-- Elimina los métodos `getCantidad` tanto de las interfaces de la capa negocio como de la nueva capa `ficheros`.
-- Haz que el constructor de `Modelo` sea el que realice la asignación de la fuente de datos y que desde `ModeloCascada` se llame a este constructor.
-- Realiza un **commit**.
+9.-Modifica la clase Vehiculos del paquete ficheros, para que al comenzar lea el fichero XML de vehículos, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar vehiculos.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
 
+![XML Vehiculos](xml_vehiculos.png)
 
+10.-Modifica la clase Alquileres del paquete ficheros, para que al comenzar lea el fichero XML de alquileres, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar alquileres.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. Se deben acceder a las diferentes instancias para buscar las referencias necesarias para insertar en la lista al leer el fichero. La estructura del fichero XML será la siguiente:
 
-#### Lectura / Escritura de ficheros XML
-- Implementa el **patrón singlenton** en cada una de las clase de la capa ficheros tal y como se indica en el diagrama de clases.
-- Cambia la visibilidad en el método `crear` en la clase `FactoriaFuenteDatos`.
-- Cambia el constructor de `Modelo` (y, por consecuencia de `ModeloCascada`) para que acepte un tipo de factoría de fuente de datos y que la cree.
-- Cambia la clase `MainApp` para que todo siga funcionando correctamente.
-- Crea la clase `UtilidadesXML`  con los tres métodos que se indican en el diagrama.
-- Modifica la clase `Clientes` del paquete `ficheros`, para que al comenzar lea el fichero XML de clientes, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta `datos` de la raíz del proyecto y se debe llamar `clientes.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero será la siguiente:
-
-~~~XML
-	<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-	<clientes>
-		<cliente dni="11223344B" nombre="Bob Esponja" telefono="950112233"/>
-		<cliente dni="11111111H" nombre="Patricio Estrella" telefono="950111111"/>
-	</clientes>
-~~~
-
-- Modifica la clase `Vehiculos` del paquete `ficheros`, para que al comenzar lea el fichero XML de vehículos, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta `datos` de la raíz del proyecto y se debe llamar `vehiculos.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero será la siguiente:
-
-~~~XML
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <vehiculos>
-        <vehiculo marca="Scania" matricula="1234BCD" modelo="Citywide" plazas="60" tipo="autobus"/>
-        <vehiculo cilindrada="1100" marca="Seat" matricula="1111BBB" modelo="León" tipo="turismo"/>
-        <vehiculo cilindrada="1300" marca="Renault" matricula="2222CCC" modelo="Megane" tipo="turismo"/>
-        <vehiculo marca="Mercedes-Benz" matricula="3333DDD" modelo="eSprinter" plazas="2" pma="7000" tipo="furgoneta"/>
-    </vehiculos>
-~~~
-
-- Modifica la clase `Alquileres` del paquete `ficheros`, para que al comenzar lea el fichero XML de alquileres, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta `datos` de la raíz del proyecto y se debe llamar `alquileres.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. Se deben acceder a las diferentes instancias para buscar las referencias necesarias para insertar en la lista al leer el fichero. La estructura del fichero será la siguiente:
-
-~~~XML
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <alquileres>
-        <alquiler cliente="11223344B" fechaAlquiler="01/03/2023" fechaDevolucion="07/03/2023" vehiculo="3333DDD"/>
-        <alquiler cliente="11111111H" fechaAlquiler="10/03/2023" fechaDevolucion="14/03/2023" vehiculo="1111BBB"/>
-        <alquiler cliente="11223344B" fechaAlquiler="10/03/2023" fechaDevolucion="16/03/2023" vehiculo="1234BCD"/>
-        <alquiler cliente="11111111H" fechaAlquiler="15/03/2023" vehiculo="2222CCC"/>
-    </alquileres>
-~~~
-
-- Comprueba que las clases **pasan los test**, que **todo sigue funcionando igual** y, cuando lo haga, realiza un **commit** y seguidamente un **push** a tu repositorio remoto.
+![XML Alquileres](xml_alquileres.png)
 
 
 
