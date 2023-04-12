@@ -10,7 +10,7 @@ Otra cosa que le gustaría al cliente es que la aplicación ofreciese estadísti
 
 Para llevar a cabo estas modificaciones, debes realizar las siguientes pasos:
 
-####Enumerado Accion
+####Enumerado Accion####
 
 Añade las tres nuevas acciones que puede realizar el usuario: 
 
