@@ -10,7 +10,7 @@ Otra cosa que le gustaría al cliente es que la aplicación ofreciese estadísti
 
 Para llevar a cabo estas modificaciones, debes realizar las siguientes pasos:
 
-####Enumerado Accion####
+#### Enumerado Accion
 
 Añade las tres nuevas acciones que puede realizar el usuario: 
 
@@ -22,7 +22,7 @@ Añade las tres nuevas acciones que puede realizar el usuario: 
 
 ![Enumerado Accion](src/main/resources/uml/Accion.png)
 
-####Vista Texto
+#### Vista Texto
 
 1.-Modifica la clase `VistaTexto` para se puedan realizar las devoluciones por cliente o por vehículo y no por alquiler.
 
@@ -32,19 +32,19 @@ Añade las tres nuevas acciones que puede realizar el usuario: 
 
 ![Vista Texto](src/main/resources/uml/VistaTexto.png)
 
-####Controlador
+#### Controlador
 
 Modifica la clase `Controlador` para que se puedan realizar devoluciones por cliente y por vehículo.
 
 ![Controlador](src/main/resources/uml/Controlador.png)
 
-####Modelo y ModeloCascada
+#### Modelo y ModeloCascada
 
 Modifica las clases `Modelo` y `ModeloCascada` para que se puedan realizar devoluciones por cliente y por vehículo.
 
 ![Modelo y Modelo Cascada](src/main/resources/uml/Modelo_ModeloCascada.png)
 
-####Alquileres
+#### Alquileres
 
 Elimina el anterior método `devolver` de la clase `Alquileres` e implementa los dos nuevos métodos devolver para un cliente dado y para un turismo dado tal y como pedía nuestro cliente. Deberás implementar los métodos `getAlquilerAbierto` para un cliente dado y para un turismo dado y que se usarán en los métodos anteriores. Lógicamente, también deberás actualizar la interfaz `IAlquileres`. Realiza un commit.
 
