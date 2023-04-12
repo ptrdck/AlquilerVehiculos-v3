@@ -20,7 +20,7 @@ Añade las tres nuevas acciones que puede realizar el usuario: 
 
 3.-**MOSTRAR_ESTADITICAS_MENSUALES**: Muestra estadísticas mensuales por tipo de vehículo.
 
-![Enumerado Accion](Accion.png)
+![Enumerado Accion](src/main/resources/uml/Accion.png)
 
 ####Vista Texto
 
@@ -30,25 +30,25 @@ Añade las tres nuevas acciones que puede realizar el usuario: 
 
 3.-Implementa el método `mostrarEstadisticasMensualesTipoVehiculo` que utilizará el método `inicializarEstadisticas` para inicializar el mapa, y que mostrará por pantalla el número total de veces que ha sido alquilado cada vehículo en el mes indicado por el usuario (debe usarse el método `leerMes` de la clase `Consola`).
 
-![Vista Texto](VistaTexto.png)
+![Vista Texto](src/main/resources/uml/VistaTexto.png)
 
 ####Controlador
 
 Modifica la clase `Controlador` para que se puedan realizar devoluciones por cliente y por vehículo.
 
-![Controlador](Controlador.png)
+![Controlador](src/main/resources/uml/Controlador.png)
 
 ####Modelo y ModeloCascada
 
 Modifica las clases `Modelo` y `ModeloCascada` para que se puedan realizar devoluciones por cliente y por vehículo.
 
-![Modelo y Modelo Cascada](Modelo_ModeloCascada.png)
+![Modelo y Modelo Cascada](src/main/resources/uml/Modelo_ModeloCascada.png)
 
 ####Alquileres
 
 Elimina el anterior método `devolver` de la clase `Alquileres` e implementa los dos nuevos métodos devolver para un cliente dado y para un turismo dado tal y como pedía nuestro cliente. Deberás implementar los métodos `getAlquilerAbierto` para un cliente dado y para un turismo dado y que se usarán en los métodos anteriores. Lógicamente, también deberás actualizar la interfaz `IAlquileres`. Realiza un commit.
 
-![Alquileres](Alquileres.png)
+![Alquileres](src/main/resources/uml/Alquileres.png)
 
 Nuestro cliente está tan encantado con nuestro trabajo que  nos pide que por favor añadamos persistencia a los datos introducidos, ya que tal y como está ahora la aplicación no es funcional. Por tanto, también en este **tercer spring** añadiremos persistencia a los datos utilizando para ello ficheros XML, para lo cual añadiremos un paquete de ficheros con todo lo neceario para lograr dicha persistencia.
 
@@ -63,23 +63,30 @@ Para todo lo relacionado con la persistencia, te muestro un diagrama de clases p
 
 
 1.-Actualiza la clase `FactoriaFuenteDatos` para que contemple la opción de ficheros. Realiza un commit.
+
 2.-Crea la clase `FuenteDatosFicheros` en la que cada método crear de cada colección devolverá la instancia de la colección correspondiente (método `getInstancia`).
+
 3.- Implementa el **patrón singlenton** en cada una de las clase de la capa ficheros tal y como se indica en el diagrama de clases.
-4.-Cambia la visibilidad (paquete) en el método crear en la clase FactoriaFuenteDatos.
-5.-Cambia el constructor de Modelo (y, por consecuencia de ModeloCascada) para que acepte un tipo de factoría de fuente de datos y además, la cree.
-6.-Cambia la clase MainApp para que todo siga funcionando correctamente.
-7.-Crea la clase UtilidadesXML con los métodos que se indican en el diagrama.
-8.-Modifica la clase Clientes del paquete ficheros, para que al comenzar lea el fichero XML de clientes, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar clientes.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
 
-![XML Clientes](xml_clientes.png)
+4.-Cambia la visibilidad (paquete) en el método crear en la clase `FactoriaFuenteDatos`.
 
-9.-Modifica la clase Vehiculos del paquete ficheros, para que al comenzar lea el fichero XML de vehículos, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar vehiculos.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
+5.-Cambia el constructor de `Modelo` (y, por consecuencia de `ModeloCascada`) para que acepte un tipo de factoría de fuente de datos y además, la cree.
 
-![XML Vehiculos](xml_vehiculos.png)
+6.-Cambia la clase `MainApp` para que todo siga funcionando correctamente.
 
-10.-Modifica la clase Alquileres del paquete ficheros, para que al comenzar lea el fichero XML de alquileres, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta datos de la raíz del proyecto y se debe llamar alquileres.xml. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. Se deben acceder a las diferentes instancias para buscar las referencias necesarias para insertar en la lista al leer el fichero. La estructura del fichero XML será la siguiente:
+7.-Crea la clase `UtilidadesXML` con los métodos que se indican en el diagrama.
 
-![XML Alquileres](xml_alquileres.png)
+8.-Modifica la clase `Clientes` del paquete ficheros, para que al comenzar lea el fichero XML de clientes, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta **datos** de la raíz del proyecto y se debe llamar `clientes.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
+
+![XML Clientes](src/main/resources/uml/xml_clientes.png)
+
+9.-Modifica la clase `Vehiculos` del paquete ficheros, para que al comenzar lea el fichero XML de vehículos, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta **datos** de la raíz del proyecto y se debe llamar `vehiculos.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. La estructura del fichero XML será la siguiente:
+
+![XML Vehiculos](src/main/resources/uml/xml_vehiculos.png)
+
+10.-Modifica la clase `Alquileres` del paquete ficheros, para que al comenzar lea el fichero XML de alquileres, lo almacene en un una lista y al terminar lo vuelva a almacenar en dicho fichero. El fichero debe estar situado en la carpeta **datos** de la raíz del proyecto y se debe llamar `alquileres.xml`. Se deben implementar los métodos que se especifican en el diagrama y que son autoexplicativos. Se deben acceder a las diferentes instancias para buscar las referencias necesarias para insertar en la lista al leer el fichero. La estructura del fichero XML será la siguiente:
+
+![XML Alquileres](src/main/resources/uml/xml_alquileres.png)
 
 
 
