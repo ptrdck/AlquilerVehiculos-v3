@@ -59,7 +59,7 @@ Los alquileres guardan una referencia del cliente y del vehículo, pero dicha cl
 Pero esto acarrea otro problema y es que estamos exponiendo dichas instancias a toda la aplicación, lo que podría permitir que desde cualquier lugar se pueda acceder a las mismas provocando efectos indeseados y rompiendo con el principio de ocultación de la información. Para solucionarlo jugaremos con las visibilidades. Haremos que los métodos que nos devuelven la instancia de cada clase (`getInstancia`) tengan una visibilidad de paquete, con lo que sólo podremos acceder a ellas desde el **paquete ficheros**. También tenemos que hacer que la factoría de fuente de datos sólo permita crearlas desde el mismo paquete para que sólo se puedan crear fuentes de datos desde la capa de modelo. Por último debemos modificar el constructor del `Modelo` para que no acepte una fuente de datos, sino el tipo de la fuente de datos y sea él el que la cree. Y finalmente modificaremos la clase `MainApp`, para que en vez de pasarle la fuente de datos, se le pase el tipo.
 Para todo lo relacionado con la persistencia, te muestro un diagrama de clases para la capa del modelo que es la única que varía:
 
-![Diagrama de clases de la tarea](src/main/resources/uml/alquilerVehiculos.png)
+![Diagrama de clases de la tarea](src/main/resources/uml/AlquilerVehiculosFicheros0.png)
 
 
 1.-Actualiza la clase `FactoriaFuenteDatos` para que contemple la opción de ficheros. Realiza un commit.
