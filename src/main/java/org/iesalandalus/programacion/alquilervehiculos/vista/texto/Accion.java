@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.texto;
 
+import javax.naming.OperationNotSupportedException;
+
 public enum Accion 
 {
 	SALIR("Salir")
@@ -58,11 +60,18 @@ public enum Accion
 			vistaTexto.modificarCliente();
 		}
 	},
-	DEVOLVER_ALQUILER("Devolver alquiler")
+	DEVOLVER_ALQUILER_CLIENTE("Devolver alquiler por cliente")
 	{
 		public void ejecutar()
 		{
-			vistaTexto.devolverAlquiler();
+			vistaTexto.devolverAlquilerCliente();
+		}
+	},
+	DEVOLVER_ALQUILER_VEHICULO("Devolver alquiler por vehículo")
+	{
+		public void ejecutar()
+		{
+			vistaTexto.devolverAlquilerVehiculo();
 		}
 	},
 	
@@ -120,6 +129,13 @@ public enum Accion
 		public void ejecutar()
 		{
 			vistaTexto.listarAlquileresVehiculo();
+		}
+	},
+	MOSTRAR_ESTADISTICAS_MENSUALES("Mostrar estadísticas mensuales")
+	{
+		public void ejecutar()
+		{
+			vistaTexto.mostrarEstadisticasMensualesTipoVehiculo();
 		}
 	};
 	

@@ -1,8 +1,11 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.texto;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -146,7 +149,7 @@ public class VistaTexto extends Vista
 		    	System.out.println(e.getMessage());
 		    }
 	}
-	
+	/*
 	protected void devolverAlquiler()
 	{
 		Consola.mostrarCabecera("Devolver alquiler\n");
@@ -163,22 +166,21 @@ public class VistaTexto extends Vista
 		}
 		
 	}
-/*
+	*/
 	protected void devolverAlquilerCliente()
 	{
-		 Consola.mostrarCabecera("Devolver alquiler por cliente\n");
-		
-;		    try
-		    {
-		    	controlador.devolver(Consola.leerClienteDni(), Consola.leerFechaDevolucion());
+		Consola.mostrarCabecera("Devolver alquiler por cliente\n");
+		try
+			{
+				controlador.devolver(Consola.leerClienteDni(), Consola.leerFechaDevolucion());
 		    	System.out.println("Fecha de devolución correcta");
 		    }
-		    catch (NullPointerException | OperationNotSupportedException| IllegalArgumentException e)
+		    catch (Exception e)
 		    {
 		    	System.out.println(e.getMessage());
 		    }
 	}
-	protected void devolverAlquilerVehiculo()
+	protected void devolverAlquilerVehiculo() 
 	{
 		 Consola.mostrarCabecera("Devolver alquiler por vehículo\n");
 		 
@@ -187,12 +189,11 @@ public class VistaTexto extends Vista
 		    	controlador.devolver(Consola.leerVehiculoMatricula(), Consola.leerFechaDevolucion());
 		    	System.out.println("Fecha de devolución correcta");
 		    }
-		    catch (NullPointerException | OperationNotSupportedException| IllegalArgumentException e)
+		    catch (Exception e)
 		    {
 		    	System.out.println(e.getMessage());
 		    }
 	}
-*/
 	protected void borrarCliente()
 	{
 		 Consola.mostrarCabecera("Borrar cliente\n");
@@ -332,6 +333,39 @@ public class VistaTexto extends Vista
 		 }
 		 else
 			 System.out.println("ERROR: No hay alquileres para dicho turismo.");	
+	}
+	
+	private EnumMap<TipoVehiculo, Integer> inicializarEstadisticas()
+	{
+        EnumMap<TipoVehiculo, Integer> estadisticas = new EnumMap<>(TipoVehiculo.class);
+        for (TipoVehiculo tipo : TipoVehiculo.values()) {
+            estadisticas.put(tipo, 0);
+        }
+        return estadisticas;
+    }
+	
+	/*el método mostrarEstadisticasMensualesTipoVehiculo llama al método leerMes 
+	 * de la clase Consola para obtener el mes indicado por el usuario. 
+	 * A continuación, se llama al método inicializarEstadisticas dentro de la clase
+	 *  VistaTexto para obtener el mapa de estadísticas correspondientes al mes indicado, 
+	 *  utilizando el método obtenerEstadisticasMensualesTipoVehiculo en el controlador.
+	 * Luego, se muestra por pantalla cada tipo de vehículo y la cantidad de veces que ha sido alquilado en el mes indicado.
+	*/
+	public void mostrarEstadisticasMensualesTipoVehiculo() 
+	{
+		Month mes = Consola.leerMes();
+		Map<TipoVehiculo, Integer> estadisticas = inicializarEstadisticas();
+
+		if (estadisticas.isEmpty()) {
+			System.out.println("ERROR: No hay estadísticas disponibles para el mes indicado.\n");
+		} else {
+			System.out.println("\nEstadísticas de alquiler de vehículos en el mes: " + mes);
+			for (Map.Entry<TipoVehiculo, Integer> entry : estadisticas.entrySet()) {
+				TipoVehiculo tipoVehiculo = entry.getKey();
+				int cantidadAlquileres = entry.getValue();
+				System.out.println(tipoVehiculo + ": " + cantidadAlquileres + " alquileres");
+			}
+		}
 	}
 
 

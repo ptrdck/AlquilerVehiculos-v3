@@ -1,8 +1,10 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.texto;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Autobus;
@@ -311,6 +313,25 @@ public class Consola
 		
 		
 		return fechaDevolucion;
+	}
+	
+	public static Month leerMes() {
+	    Month mes = null;
+	    boolean entradaValida = false;
+
+	    do {
+	        try {
+	            int mesNumerico = leerEntero("\nIntroduzca el número del mes (1-12): ");
+	            mes = Month.of(mesNumerico);
+	            entradaValida = true;
+	        } catch (InputMismatchException e) {
+	            System.out.println("Error: Debe ingresar un número válido.");
+	        } catch (IllegalArgumentException e) {
+	            System.out.println("Error: Debe ingresar un número de mes válido (1-12).");
+	        }
+	    } while (!entradaValida);
+
+	    return mes;
 	}
 
 }

@@ -189,6 +189,7 @@ public class Alquileres implements IAlquileres
 			coleccionAlquileres.remove(alquiler);
 	}
 
+	/*
 	@Override
 	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException
 	{
@@ -220,38 +221,79 @@ public class Alquileres implements IAlquileres
         	throw new OperationNotSupportedException("ERROR: no puede realizarse una devolución de un alquiler nulo");
         	
 		
-	}
+	}*/
 	
-/*
-	@Override
-	public void devolver(Vehiculo vehiculo, LocalDate fechaDevolucion) 
+
+	
+	public void devolver(Vehiculo vehiculo, LocalDate fechaDevolucion) throws OperationNotSupportedException 
 	{
-		Alquiler alquiler = getAlquilerAbierto(vehiculo);
-		if (alquiler != null)
+		if (vehiculo == null)
 		{
-			alquiler.devolver(fechaDevolucion);
+			throw new NullPointerException("ERROR: No se puede devolver un alquiler Nulo");
 		}
-		else
+		Alquiler alquilado = getAlquilerAbierto(vehiculo);
+		
+		if (alquilado == null)
 		{
-			System.out.println("No hay ningún alquiler abierto para el vehículo con matrícula: " + vehiculo.getMatricula());
+			throw new OperationNotSupportedException("ERROR: El vehículo no registra alquiler actualmente");
 		}
 		
+		alquilado.devolver(fechaDevolucion);
 	}
-	*/
-	/*
+	
+	
 	private Alquiler getAlquilerAbierto(Vehiculo vehiculo)
 	{
+		Alquiler alquilerAbierto = null;
+		if (vehiculo == null)
+		{
+			throw new NullPointerException("ERROR: el automóvil no puede ser nulo");
+		}
 		for (Alquiler alquiler : coleccionAlquileres)
 		{
 			if (alquiler.getVehiculo().equals(vehiculo) && alquiler.getFechaDevolucion() == null)
 			{
-				return alquiler;
+				alquiler = alquilerAbierto;
 			}
 		}
 		
-		return null;
+		return alquilerAbierto;
 	}
 
-	*/
+
+	public void devolver(Cliente cliente, LocalDate fechaDevolucion) throws OperationNotSupportedException 
+	{
+		if (cliente == null)
+		{
+			throw new NullPointerException("ERROR: el cliente no puede ser Nulo");
+		}
+		Alquiler alquilado = getAlquilerAbierto(cliente);
+		
+		if (alquilado == null)
+		{
+			throw new OperationNotSupportedException("ERROR: El vehículo no registra alquiler actualmente");
+		}
+		
+		alquilado.devolver(fechaDevolucion);
+	}
+	
+
+	private Alquiler getAlquilerAbierto(Cliente cliente)
+	{
+		Alquiler alquilerAbierto = null;
+		if (cliente == null)
+		{
+			throw new NullPointerException("ERROR: el automóvil no puede ser nulo");
+		}
+		for (Alquiler alquiler : coleccionAlquileres)
+		{
+			if (alquiler.getCliente().equals(cliente) && alquiler.getFechaDevolucion() == null)
+			{
+				alquiler = alquilerAbierto;
+			}
+		}
+		
+		return alquilerAbierto;
+	}
 	
 }

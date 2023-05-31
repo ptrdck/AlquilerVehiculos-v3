@@ -168,13 +168,28 @@ public class ModeloCascada extends Modelo {
 		}
 		return alquileresVehiculo;
 	}
-
+/*
 	@Override
 	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		if (alquileres.buscar(alquiler) == null) {
 			throw new OperationNotSupportedException("ERROR: No exite tal alquiler registrado.");
 		}
 		alquileres.devolver(alquiler, fechaDevolucion);
+	}
+*/
+	@Override
+	public void devolver(Cliente cliente, LocalDate fechaDevolucion) throws OperationNotSupportedException 
+	{
+		alquileres.devolver(cliente, fechaDevolucion);
+		
+	}
+
+	@Override
+	public void devolver(Vehiculo vehiculo, LocalDate fechaDevolucion) throws OperationNotSupportedException 
+	{
+		alquileres.devolver(vehiculo, fechaDevolucion);
+		
+		
 	}
 
 	
