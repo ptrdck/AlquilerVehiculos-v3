@@ -108,6 +108,18 @@ public class Clientes implements IClientes
 			cliente.setTelefono(telefono);
 		}
 	}
+
+	@Override
+	public void comenzar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void terminar() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

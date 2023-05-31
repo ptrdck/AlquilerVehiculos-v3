@@ -9,22 +9,25 @@ import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
+import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
-import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.IFuenteDatos;
 public class ModeloCascada extends Modelo {
 
-	public ModeloCascada(IFuenteDatos fuenteDatos) {
-		setFuenteDatos(fuenteDatos);
+	public ModeloCascada(FactoriaFuenteDatos factoriaFuenteDatos) 
+	{
+		super(factoriaFuenteDatos);
+		comenzar();
 	}
 
 	@Override
 	public void insertar(Cliente cliente) throws OperationNotSupportedException {
-		clientes.insertar(cliente);
+		//Insertar copia 
+		clientes.insertar(new Cliente(cliente));
 	}
 
 	@Override
 	public void insertar(Vehiculo vehiculo) throws OperationNotSupportedException {
-		vehiculos.insertar(vehiculo);
+		vehiculos.insertar(Turismo.copiar(vehiculo));
 	}
 
 	@Override
@@ -38,28 +41,28 @@ public class ModeloCascada extends Modelo {
 		if (vehiculos.buscar(alquiler.getVehiculo()) == null) {
 			throw new OperationNotSupportedException("ERROR: No existe el vehículo del alquiler.");
 		}
-		alquileres.insertar(alquiler);
+		alquileres.insertar(new Alquiler(alquiler));
 	}
 
 	@Override
 	public Cliente buscar(Cliente cliente) 
 	{
-		Cliente buscarCliente = new Cliente(clientes.buscar(cliente));
-		return buscarCliente;
+		//Cliente buscarCliente = new Cliente(clientes.buscar(cliente));
+		return clientes.buscar(cliente);
 	}
 
 	@Override
 	public Vehiculo buscar(Vehiculo vehiculo) 
 	{
-		Vehiculo buscarVehiculo = (vehiculos.buscar(vehiculo));
-		return buscarVehiculo;
+		//Vehiculo buscarVehiculo = (vehiculos.buscar(vehiculo));
+		return vehiculos.buscar(vehiculo);
 	}
 
 	@Override
 	public Alquiler buscar(Alquiler alquiler) 
 	{
-		Alquiler buscaAlquiler = new Alquiler(alquileres.buscar(alquiler));
-		return buscaAlquiler;
+		//Alquiler buscaAlquiler = new Alquiler(alquileres.buscar(alquiler));
+		return alquileres.buscar(alquiler);
 	}
 
 	@Override

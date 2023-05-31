@@ -1,27 +1,261 @@
-package org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.memoria;
+package org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.ficheros;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.IAlquileres;
+import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.ficheros.utilidades.UtilidadesXml;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class Alquileres implements IAlquileres 
 {
+	
+	
+	private final String RUTA_FICHERO ="datos/alquileres.xml";
+	private final String FORMATO_FECHA = "dd/MM/yyyy";
+	private final String RAIZ = "alquileres";
+	
+	private final String ALQUILER="alquiler";
+	private final String DNI_CLIENTE ="dni";
+	private final String MATRICULA_VEHICULO = "matricula";							
+	private final String FECHA_ALQUILER="fechaAlquiler";
+	private final String FECHA_DEVOLUCION="fechaDevolucion";
+	
+	private final String FORMATO ="formato";	
+	
+								
+	private final String TIPO_DATO="tipodato";
+	
+	
 	//Inicializacion de lista (0..*)
 	private List<Alquiler> coleccionAlquileres;
+	private static Alquileres instancia = new Alquileres();
 	
 	//constructor por defecto
-	public Alquileres()
+	private Alquileres()
 	{
-		coleccionAlquileres = new LinkedList<>();
+		
 	}
+	
+	public static Alquileres getInstancia()
+	{
+		return instancia;
+	}
+	
+	public void comenzar() {
+		try 
+		{	
+			coleccionAlquileres  = new LinkedList<>();
+			leerXml();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error " + e);
+		}
+	}
+	
+	private void leerXml() throws IOException
+	{
+		//instanciamos el objeto fichero. 
+		File file = new File(RUTA_FICHERO);
+		
+		if(!file.exists())
+		{
+			throw new FileNotFoundException("ERROR: El archivo que intenta leer no existe");
+		}
+		if (!file.isFile())
+		{
+			throw new IllegalArgumentException("ERROR: El archivo que intenta es incorrecto");
+		}
+		if (!file.canRead())
+		{
+			throw new IOException("ERROR: no se puede leer el archivo.");
+		}
+		
+		try {
+			//Creamos el documento
+	        Document DOM = UtilidadesXml.xmlToDom(RUTA_FICHERO);
+	        Element listaAlquileres = DOM.getDocumentElement();
+	        
+	        //Cargamos los nodos. 
+	        NodeList listaNodos = listaAlquileres.getChildNodes();
+	        
+	        //iniciamos un bucle para obtener los elementos y atributos de uyn cliente
+	        for (int i = 0; i < listaNodos.getLength(); i++) {
+	            Node nodo = listaNodos.item(i);
+	            
+	            //Si el nodo es de tipo elemento creará un cliente nuevo. 
+	            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+	                Alquiler alquiler = elementToAlquiler((Element) nodo);
+	                try {
+	                    insertar(alquiler);
+	                } catch (OperationNotSupportedException e) {
+	                    System.out.println(e.getMessage());
+	                }
+	            }
+	        }
+	    } catch (ParserConfigurationException | SAXException | IOException e) {
+	        System.out.println("ERROR: Ocurrió un error al leer el archivo XML: " + e);
+	    }
+	}
+	
+	private Alquiler elementToAlquiler(Element element) 
+	{
+		//Inicializamos variables. 
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA);
+	    Cliente cliente = null;
+	    Vehiculo vehiculo = null;
+	    
+	    //iniciación de elementos.
+	    Element alquilerDOM = element;
+	    //declaración de atributos
+	    String matriculaAtributo = alquilerDOM.getAttribute(MATRICULA_VEHICULO);
+	    String dniAtributo = alquilerDOM.getAttribute(DNI_CLIENTE);
+	    
+	    //asignación de elementos 
+	    Element fechaAlquiler = (Element) alquilerDOM.getElementsByTagName(FECHA_ALQUILER).item(0);
+	    Element fechaDevolucion = (Element) alquilerDOM.getElementsByTagName(FECHA_DEVOLUCION).item(0);
+
+	    List<Cliente> listaClientes = Clientes.getInstancia().get();
+	    Iterator<Cliente> clienteIterador = listaClientes.iterator();
+	    while (clienteIterador.hasNext()) {
+	        Cliente clienteI = clienteIterador.next();
+	        if (clienteI.getDni().equalsIgnoreCase(dniAtributo)) {
+	            cliente = clienteI;
+	            break;
+	        }
+	    }
+
+	    List<Vehiculo> listaVehiculos = Vehiculos.getInstancia().get();
+	    Iterator<Vehiculo> vehiculoIterador = listaVehiculos.iterator();
+	    while (vehiculoIterador.hasNext()) {
+	        Vehiculo vehiculoI = vehiculoIterador.next();
+	        if (vehiculoI.getMatricula().equalsIgnoreCase(matriculaAtributo)) {
+	            vehiculo = vehiculoI;
+	            break;
+	        }
+	    }
+
+	    Alquiler alquiler = new Alquiler(cliente, vehiculo, LocalDate.parse(fechaAlquiler.getTextContent(), formatter));
+
+	    if (fechaDevolucion.getTextContent() != null && !fechaDevolucion.getTextContent().isEmpty()) {
+	        try {
+	            alquiler.devolver(LocalDate.parse(fechaDevolucion.getTextContent(), formatter));
+	        } catch (OperationNotSupportedException | DOMException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return alquiler;
+	}
+
+	public void terminar()
+	{
+		try
+		{
+			escribirXml();
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private void escribirXml() throws ParserConfigurationException, TransformerException
+	{
+		//Creamos iun documento XML vacío utilizando el método "crearDomVacio()"
+		Document DOM = UtilidadesXml.crearDomVacio(RAIZ);
+		
+		//Obtenemos el elemento raíz del documento
+		Element alquileres = DOM.getDocumentElement();
+		
+		//Iniciamos un iterador
+		Iterator<Alquiler> iterador = coleccionAlquileres.iterator();
+	    while (iterador.hasNext()) {
+	        Alquiler alquiler = iterador.next();
+	        
+	        try 
+	        //Realizamos la conversión del objeto "Cliente" en un elemento XML agregando a la lista de clientes. 
+	        {
+	            Element alquilerDOM = alquilerToElement(DOM, alquiler);
+	            alquileres.appendChild(alquilerDOM);
+	        } catch (DOMException e)
+	        {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    UtilidadesXml.domToXml(DOM, RUTA_FICHERO);
+	}
+	
+	private Element alquilerToElement(Document DOM, Alquiler alquiler) 
+	{
+		//inicialización de variables y formato. 
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA);
+	    LocalDate fechaAlquiler = alquiler.getFechaAlquiler();
+	    fechaAlquiler.format(formatter);
+	    LocalDate fechaDevolucion = alquiler.getFechaDevolucion();
+	    
+	    
+	    if (fechaDevolucion != null) 
+	    {
+	        fechaDevolucion.format(formatter);
+	    }
+
+	    // Crear el elemento principal 'alquilerDOM' para representar el alquiler
+	    Element alquilerDOM = DOM.createElement(ALQUILER);
+	    // Establecer los atributos 'DNI_CLIENTE' y 'MATRICULA_VEHICULO' en el elemento 'alquilerDOM'
+	    alquilerDOM.setAttribute(DNI_CLIENTE, alquiler.getCliente().getDni());
+	    alquilerDOM.setAttribute(MATRICULA_VEHICULO, alquiler.getVehiculo().getMatricula());
+
+	    // Crear el elemento 'fechaAlquilerD' para representar la fecha de alquiler
+	    Element fechaAlquilerD = DOM.createElement(FECHA_ALQUILER);
+	    fechaAlquilerD.setAttribute(FORMATO, FORMATO_FECHA);
+	    fechaAlquilerD.setAttribute(TIPO_DATO, "LocalDate");
+	    // Establecer el contenido de texto con la fecha de alquiler en el elemento 'fechaAlquilerD'
+	    fechaAlquilerD.setTextContent(fechaAlquiler.toString());
+
+	    // Agregar el elemento 'fechaAlquilerD' como hijo del elemento 'alquilerDOM'
+	    alquilerDOM.appendChild(fechaAlquilerD);
+
+	    // Crear el elemento 'fechaDevolucionD' para representar la fecha de devolución
+	    Element fechaDevolucionD = DOM.createElement(FECHA_DEVOLUCION);
+	    // Establecer el contenido de texto con la fecha de devolución (si está presente) en el elemento 'fechaDevolucionD'
+	    if (alquiler.getFechaDevolucion() != null) {
+	        fechaDevolucionD.setTextContent(fechaDevolucion.toString());
+	    } else {
+	        fechaDevolucionD.setTextContent("");
+	    }
+
+	    fechaDevolucionD.setAttribute(FORMATO, FORMATO_FECHA);
+	    fechaDevolucionD.setAttribute(TIPO_DATO, "LocalDate");
+	    // Agregar el elemento 'fechaDevolucionD' como hijo del elemento 'alquilerDOM'
+	    alquilerDOM.appendChild(fechaDevolucionD);
+
+	    // Retornar el elemento 'alquilerDOM'
+	    return alquilerDOM;
+	}
+	
+	
+
 	
 	//Método get para devolver una nueva lista con los mismos elementos
 	public List<Alquiler> get()
@@ -173,7 +407,7 @@ public class Alquileres implements IAlquileres
 			}
 		}
 		
-		return alquilerB;
+		return coleccionAlquileres.get(coleccionAlquileres.indexOf(alquilerB));
 	}
 	
 	//método para borrar un alquiler de la coleccion solo si este no es nulo y existe. 
@@ -296,18 +530,6 @@ public class Alquileres implements IAlquileres
 		}
 		
 		return alquilerAbierto;
-	}
-
-	@Override
-	public void comenzar() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void terminar() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	

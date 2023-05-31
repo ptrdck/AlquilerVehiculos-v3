@@ -22,6 +22,11 @@ public abstract class Modelo {
     protected IVehiculos vehiculos;
     protected IAlquileres alquileres;
     protected IFuenteDatos fuenteDatos;
+    
+    protected Modelo(FactoriaFuenteDatos factoriaFuenteDatos)
+    {
+    	setFuenteDatos(factoriaFuenteDatos.crear());
+    }
 
     protected void setFuenteDatos(IFuenteDatos fuenteDatos) {
         this.fuenteDatos = fuenteDatos;
@@ -29,11 +34,21 @@ public abstract class Modelo {
 
     public void comenzar() {
         clientes = fuenteDatos.crearClientes();
+        clientes.comenzar();
+        
         vehiculos = fuenteDatos.crearVehiculos();
+        vehiculos.comenzar();
+        
         alquileres = fuenteDatos.crearAlquileres();
+        alquileres.comenzar();
     }
 
     public void terminar() {
+        
+        clientes.terminar();
+        vehiculos.terminar();
+        alquileres.terminar();
+        
         System.out.println("Modelo terminado");
     }
 

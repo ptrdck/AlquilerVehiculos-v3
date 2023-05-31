@@ -30,7 +30,7 @@ public class Controlador
 		
 		this.modelo = modelo;
 		this.vista = vista;
-		this.vista.setControlador(this);
+		vista.setControlador(this);
 	}
 	
 	public void comenzar()
@@ -41,6 +41,7 @@ public class Controlador
 	
 	public void terminar()
 	{
+		modelo.terminar();
 		System.out.println("Hasta la próxima!!!");
 	}
 	

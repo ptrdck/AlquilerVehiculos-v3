@@ -1,6 +1,5 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.texto;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.EnumMap;
 import java.util.Iterator;
