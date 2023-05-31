@@ -295,5 +295,6 @@ public class Alquileres implements IAlquileres
 		
 		return alquilerAbierto;
 	}
+
 	
 }
