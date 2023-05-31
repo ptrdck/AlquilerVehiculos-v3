@@ -160,7 +160,7 @@ public class Alquiler
 	public String toString() 
 	{
 		
-		if(fechaDevolucion==null)
+		if(getFechaDevolucion() == null)
 		{
 			return String.format("%s <---> %s, %s - %s (%d€)", cliente, vehiculo, FORMATO_FECHA.format(fechaAlquiler), 
 					"Aún no devuelto", 0);

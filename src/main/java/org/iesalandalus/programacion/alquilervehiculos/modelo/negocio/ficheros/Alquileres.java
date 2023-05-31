@@ -463,18 +463,21 @@ public class Alquileres implements IAlquileres
 	
 	public void devolver(Vehiculo vehiculo, LocalDate fechaDevolucion) throws OperationNotSupportedException 
 	{
-		if (vehiculo == null)
+		
+		Alquiler alquiler = null;
+		if (vehiculo == null || fechaDevolucion == null)
 		{
 			throw new NullPointerException("ERROR: No se puede devolver un alquiler Nulo");
 		}
-		Alquiler alquilado = getAlquilerAbierto(vehiculo);
 		
-		if (alquilado == null)
+		alquiler = getAlquilerAbierto(vehiculo);
+		
+		if (alquiler == null)
 		{
-			throw new OperationNotSupportedException("ERROR: El vehículo no registra alquiler actualmente");
+			throw new OperationNotSupportedException("ERROR: El vehículo no registra alquiler abierto actualmente");
 		}
 		
-		alquilado.devolver(fechaDevolucion);
+		alquiler.devolver(fechaDevolucion);
 	}
 	
 	
@@ -489,7 +492,7 @@ public class Alquileres implements IAlquileres
 		{
 			if (alquiler.getVehiculo().equals(vehiculo) && alquiler.getFechaDevolucion() == null)
 			{
-				alquiler = alquilerAbierto;
+				alquilerAbierto = alquiler;
 			}
 		}
 		
@@ -499,18 +502,18 @@ public class Alquileres implements IAlquileres
 
 	public void devolver(Cliente cliente, LocalDate fechaDevolucion) throws OperationNotSupportedException 
 	{
-		if (cliente == null)
+		if (cliente == null || fechaDevolucion == null)
 		{
 			throw new NullPointerException("ERROR: el cliente no puede ser Nulo");
 		}
-		Alquiler alquilado = getAlquilerAbierto(cliente);
+		Alquiler alquiler = getAlquilerAbierto(cliente);
 		
-		if (alquilado == null)
+		if (alquiler == null)
 		{
-			throw new OperationNotSupportedException("ERROR: El vehículo no registra alquiler actualmente");
+			throw new OperationNotSupportedException("ERROR: El cliente no registra alquiler abierto");
 		}
 		
-		alquilado.devolver(fechaDevolucion);
+		alquiler.devolver(fechaDevolucion);
 	}
 	
 
@@ -525,7 +528,7 @@ public class Alquileres implements IAlquileres
 		{
 			if (alquiler.getCliente().equals(cliente) && alquiler.getFechaDevolucion() == null)
 			{
-				alquiler = alquilerAbierto;
+				alquilerAbierto = alquiler;
 			}
 		}
 		

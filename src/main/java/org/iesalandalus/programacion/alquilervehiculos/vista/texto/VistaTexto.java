@@ -362,7 +362,7 @@ public class VistaTexto extends Vista
 			for (Map.Entry<TipoVehiculo, Integer> entry : estadisticas.entrySet()) {
 				TipoVehiculo tipoVehiculo = entry.getKey();
 				int cantidadAlquileres = entry.getValue();
-				System.out.println(tipoVehiculo + ": " + cantidadAlquileres + " alquileres");
+				System.out.println(tipoVehiculo + ": " + cantidadAlquileres + " alquileres \n");
 			}
 		}
 	}
