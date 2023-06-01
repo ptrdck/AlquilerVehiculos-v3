@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="378.0" prefWidth="430.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+   <children>
+      <Pane fx:id="jPane" prefHeight="384.0" prefWidth="434.0">
+         <children>
+            <Button fx:id="jBotonSalir" layoutX="360.0" layoutY="331.0" mnemonicParsing="false" text="Salir" />
+         </children>
+      </Pane>
+      <SplitPane fx:id="jSplit" dividerPositions="0.38545454545454544" layoutX="-2.0" layoutY="-3.0" orientation="VERTICAL" prefHeight="277.0" prefWidth="436.0">
+        <items>
+          <AnchorPane fx:id="jPaneTitulo" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label fx:id="jLabelTitulo" layoutX="23.0" layoutY="35.0" text="Gestión de Alquileres Rent-a-Car">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="jPaneBotones" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button fx:id="jBotonCl" layoutX="163.0" layoutY="14.0" mnemonicParsing="false" text="Gestión Clientes" />
+                  <Button fx:id="jBotonVe" layoutX="159.0" layoutY="58.0" mnemonicParsing="false" text="Gestión Vehículos" />
+                  <Button fx:id="jBotonAl" layoutX="159.0" layoutY="104.0" mnemonicParsing="false" text="Gestión Alquileres" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

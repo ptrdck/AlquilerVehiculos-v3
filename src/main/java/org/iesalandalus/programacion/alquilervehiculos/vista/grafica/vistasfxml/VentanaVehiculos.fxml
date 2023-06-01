@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+   <children>
+      <Pane fx:id="jPaneV" layoutX="-5.0" layoutY="-11.0" prefHeight="473.0" prefWidth="591.0">
+         <children>
+            <SplitPane fx:id="jSplitPaneV" dividerPositions="0.13260869565217392" layoutX="5.0" layoutY="12.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="586.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <Label fx:id="jTituloV" layoutX="124.0" layoutY="6.0" text="Gestión de Vehículos">
+                           <font>
+                              <Font size="38.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <TableView fx:id="jTablaV" layoutX="-1.0" prefHeight="271.0" prefWidth="584.0">
+                          <columns>
+                            <TableColumn fx:id="jColMatricula" prefWidth="112.0" text="Matrícula" />
+                            <TableColumn fx:id="jColMarca" prefWidth="117.0" text="Marca" />
+                              <TableColumn fx:id="jColModelo" prefWidth="129.0" text="Modelo" />
+                              <TableColumn fx:id="jColTipo" prefWidth="114.0" text="Tipo" />
+                              <TableColumn fx:id="jColDIsponible" prefWidth="111.0" text="Disponible" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="jBotonInsertar" layoutX="158.0" layoutY="289.0" mnemonicParsing="false" text="Añadir" />
+                        <Button fx:id="jBotonBorrar" layoutX="353.0" layoutY="289.0" mnemonicParsing="false" text="Borrar" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

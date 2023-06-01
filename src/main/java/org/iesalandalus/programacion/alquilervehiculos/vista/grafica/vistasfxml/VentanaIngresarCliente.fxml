@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="234.0" prefWidth="444.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+   <children>
+      <Pane prefHeight="235.0" prefWidth="444.0">
+         <children>
+            <SplitPane dividerPositions="0.19943019943019943" layoutY="-1.0" orientation="VERTICAL" prefHeight="235.0" prefWidth="444.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <Label layoutX="107.0" layoutY="3.0" text="Ingresar un cliente">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="25.0" text="Nombre" />
+                        <Label layoutX="14.0" layoutY="59.0" text="DNI" />
+                        <Label layoutX="14.0" layoutY="92.0" text="Teléfono" />
+                        <TextField layoutX="85.0" layoutY="21.0" prefHeight="25.0" prefWidth="278.0" />
+                        <TextField layoutX="85.0" layoutY="55.0" />
+                        <TextField layoutX="85.0" layoutY="88.0" />
+                        <Button layoutX="280.0" layoutY="136.0" mnemonicParsing="false" text="Añadir..." />
+                        <Button layoutX="352.0" layoutY="136.0" mnemonicParsing="false" text="Cancelar" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
