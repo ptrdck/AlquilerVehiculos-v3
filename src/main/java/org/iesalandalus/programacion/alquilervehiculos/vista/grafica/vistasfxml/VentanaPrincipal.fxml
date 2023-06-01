@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="378.0" prefWidth="430.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<AnchorPane prefHeight="378.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="jPane" prefHeight="384.0" prefWidth="434.0">
          <children>
-            <Button fx:id="jBotonSalir" layoutX="360.0" layoutY="331.0" mnemonicParsing="false" text="Salir" />
+            <Button fx:id="jBotonSalir" layoutX="360.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleBtnSalir" text="Salir" />
          </children>
       </Pane>
       <SplitPane fx:id="jSplit" dividerPositions="0.38545454545454544" layoutX="-2.0" layoutY="-3.0" orientation="VERTICAL" prefHeight="277.0" prefWidth="436.0">

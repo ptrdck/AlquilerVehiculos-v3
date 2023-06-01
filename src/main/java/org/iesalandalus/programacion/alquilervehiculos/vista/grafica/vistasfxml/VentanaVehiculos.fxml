@@ -5,12 +5,12 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.alquilervehiculos.vista.grafica.controladores.ControladorVentanaVehiculos">
    <children>
       <Pane fx:id="jPaneV" layoutX="-5.0" layoutY="-11.0" prefHeight="473.0" prefWidth="591.0">
          <children>
@@ -36,8 +36,10 @@
                               <TableColumn fx:id="jColDIsponible" prefWidth="111.0" text="Disponible" />
                           </columns>
                         </TableView>
-                        <Button fx:id="jBotonInsertar" layoutX="158.0" layoutY="289.0" mnemonicParsing="false" text="Añadir" />
-                        <Button fx:id="jBotonBorrar" layoutX="353.0" layoutY="289.0" mnemonicParsing="false" text="Borrar" />
+                        <Button fx:id="jBotonInsertar" layoutX="157.0" layoutY="326.0" mnemonicParsing="false" text="Añadir" />
+                        <Button fx:id="jBotonBorrar" layoutX="350.0" layoutY="326.0" mnemonicParsing="false" text="Borrar" />
+                        <Label fx:id="jLabelBuscar" layoutX="211.0" layoutY="286.0" text="Buscar" />
+                        <TextField fx:id="jTextFieldBuscar" layoutX="257.0" layoutY="282.0" />
                      </children>
                   </AnchorPane>
               </items>

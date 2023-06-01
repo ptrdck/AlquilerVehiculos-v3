@@ -1,70 +1,80 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.grafica.controladores;
 
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 
-public class ControladorVentanaClientes implements Initializable 
-{
-	@FXML
-    private Label jLabelTituloCl;
+public class ControladorVentanaClientes {
     @FXML
     private TableView<Cliente> jTablaCli;
+
     @FXML
     private TableColumn<Cliente, String> jColDni;
+
     @FXML
     private TableColumn<Cliente, String> jColNombre;
+
     @FXML
     private TableColumn<Cliente, String> jColTelefono;
-    @FXML
-    private Button jBotonIngresar;
-    @FXML
-    private Button jBotonListaCl;
-    @FXML
-    private Button jBotonModificar;
-    @FXML
-    private Button jBotonBorrar;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Configuración de las columnas de la tabla
+    @FXML
+    private TextField jTextFieldBuscar;
+
+    // Lista de clientes (debes inicializarla y mantenerla actualizada)
+    private ObservableList<Cliente> listaClientes;
+
+    public void initialize() {
+        // Configurar las columnas de la tabla
         jColDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
         jColNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         jColTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
 
-        // Aquí puedes agregar la lógica de inicialización de tu interfaz gráfica
-        // y establecer los manejadores de eventos para los botones, por ejemplo:
+        // Configurar la lista de clientes (puedes obtenerla de donde corresponda)
+        listaClientes = FXCollections.observableArrayList(
+                new Cliente("12345678A", "Juan Pérez", "123456789"),
+                new Cliente("87654321B", "María López", "987654321"),
+                new Cliente("56789012C", "Pedro Ramírez", "456789012"));
 
-        jBotonIngresar.setOnAction(event -> {
-            // Lógica para añadir un nuevo cliente
-            // Por ejemplo, abrir una ventana o formulario para ingresar los datos del cliente
-        });
+        // Configurar la tabla con los clientes
+        jTablaCli.setItems(listaClientes);
+    }
 
-        jBotonListaCl.setOnAction(event -> {
-            // Lógica para listar los alquileres de un cliente
-            // Por ejemplo, abrir una nueva ventana o cambiar la escena actual
-        });
+    @FXML
+    private void handleBuscarCliente(ActionEvent event) {
+        String textoBusqueda = jTextFieldBuscar.getText().toLowerCase();
 
-        jBotonModificar.setOnAction(event -> {
-            // Lógica para modificar un cliente existente
-            // Por ejemplo, abrir una ventana o formulario con los datos del cliente para su modificación
-        });
+        List<Cliente> clientesFiltrados = listaClientes.stream()
+                .filter(cliente -> cliente.getNombre().toLowerCase().contains(textoBusqueda))
+                .collect(Collectors.toList());
 
-        jBotonBorrar.setOnAction(event -> {
-            // Lógica para borrar un cliente existente
-            // Por ejemplo, mostrar un mensaje de confirmación y eliminar el cliente de la lista
-        });
+        // Actualizar la tabla con los clientes filtrados
+        jTablaCli.setItems(FXCollections.observableArrayList(clientesFiltrados));
+    }
+
+    @FXML
+    private void handleOrdenarAscendenteCliente(ActionEvent event) {
+        // Ordenar la lista de clientes alfabéticamente ascendente
+        listaClientes.sort(Comparator.comparing(Cliente::getNombre));
+
+        // Actualizar la tabla con los clientes ordenados
+        jTablaCli.setItems(listaClientes);
+    }
+
+    @FXML
+    private void handleOrdenarDescendenteCliente(ActionEvent event) {
+        // Ordenar la lista de clientes alfabéticamente descendente
+        listaClientes.sort(Comparator.comparing(Cliente::getNombre).reversed());
+
+        // Actualizar la tabla con los clientes ordenados
+        jTablaCli.setItems(listaClientes);
     }
 }
-	
-
