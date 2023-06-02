@@ -208,54 +208,7 @@ public class Alquileres implements IAlquileres
 	}
 	
 	
-	/*
-	private Element alquilerToElement(Document DOM, Alquiler alquiler) 
-	{
-		//inicialización de variables y formato. 
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA);
-	    LocalDate fechaAlquiler = alquiler.getFechaAlquiler();
-	    fechaAlquiler.format(formatter);
-	    LocalDate fechaDevolucion = alquiler.getFechaDevolucion();
-	    
-	    
-	    if (fechaDevolucion != null) 
-	    {
-	        fechaDevolucion.format(formatter);
-	    }
-
-	    // Crear el elemento principal 'alquilerDOM' para representar el alquiler
-	    Element alquilerDOM = DOM.createElement(ALQUILER);
-	    // Establecer los atributos 'DNI_CLIENTE' y 'MATRICULA_VEHICULO' en el elemento 'alquilerDOM'
-	    alquilerDOM.setAttribute(DNI_CLIENTE, alquiler.getCliente().getDni());
-	    alquilerDOM.setAttribute(MATRICULA_VEHICULO, alquiler.getVehiculo().getMatricula());
-
-	    // Crear el elemento 'fechaAlquilerD' para representar la fecha de alquiler
-	    Element fechaAlquilerD = DOM.createElement(FECHA_ALQUILER);
-	    fechaAlquilerD.setAttribute(FORMATO, FORMATO_FECHA);
-	    fechaAlquilerD.setAttribute(TIPO_DATO, "LocalDate");
-	    // Establecer el contenido de texto con la fecha de alquiler en el elemento 'fechaAlquilerD'
-	    fechaAlquilerD.setTextContent(fechaAlquiler.toString());
-
-	    // Agregar el elemento 'fechaAlquilerD' como hijo del elemento 'alquilerDOM'
-	    alquilerDOM.appendChild(fechaAlquilerD);
-
-	    // Crear el elemento 'fechaDevolucionD' para representar la fecha de devolución
-	    Element fechaDevolucionD = DOM.createElement(FECHA_DEVOLUCION);
-	    // Establecer el contenido de texto con la fecha de devolución (si está presente) en el elemento 'fechaDevolucionD'
-	    if (alquiler.getFechaDevolucion() != null) {
-	        fechaDevolucionD.setTextContent(fechaDevolucion.toString());
-	    } else {
-	        fechaDevolucionD.setTextContent("");
-	    }
-
-	    fechaDevolucionD.setAttribute(FORMATO, FORMATO_FECHA);
-	    fechaDevolucionD.setAttribute(TIPO_DATO, "LocalDate");
-	    // Agregar el elemento 'fechaDevolucionD' como hijo del elemento 'alquilerDOM'
-	    alquilerDOM.appendChild(fechaDevolucionD);
-
-	    // Retornar el elemento 'alquilerDOM'
-	    return alquilerDOM;
-	}*/
+	
 	private Element alquilerToElement(Document DOM, Alquiler alquiler) 
 	{
 		//inicialización de variables y formato. 
@@ -422,29 +375,6 @@ public class Alquileres implements IAlquileres
 		coleccionAlquileres.add(alquiler);
 	}
 	
-	//método devolver que ingreasa por parámetro un cliente y una fecha de devolución
-	/*
-	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion)
-	{
-		//for para recorrer la coleccionAlquileres
-		for (Alquiler a: coleccionAlquileres)
-		{
-			//si el alquiler es null, lanzamos la excepcion
-			if (a == null)
-			{
-				throw new NullPointerException("ERROR: No se puede devolver un alquiler nulo.");
-			}
-			//Si el alquiler recorrido contiene al mismo cliente y la fecha de devolución es null
-			//llamamos al método devolver de la clase Alquiler
-			if(alquiler.getCliente().equals(a.getCliente()) && alquiler.getFechaDevolucion() == null)
-			{
-				alquiler.devolver(fechaDevolucion);
-				//una vez asignada la fecha devolución, rompemos el ciclo.
-				break;
-			}
-		}
-	}
-	*/
 	
 	//Método para buscar un alquiler por parámetro y que buscará en la lista de coleccionAlquileres
 	//el alquiler requerido
@@ -482,39 +412,7 @@ public class Alquileres implements IAlquileres
 			coleccionAlquileres.remove(alquiler);
 	}
 
-	/*
-	@Override
-	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException
-	{
-		
-        if (alquiler != null )
-        {
-        	
-        	boolean bandera = false;
-        	Iterator<Alquiler> iterador = coleccionAlquileres.iterator();
-        	
-        	while(iterador.hasNext() || bandera == false);
-        	{
-        		Alquiler alquilerDevolver = iterador.next();
-        		
-        		if (alquilerDevolver.equals(alquiler))
-        		{
-        			alquiler.devolver(fechaDevolucion);
-        			bandera = true;
-        		}
-        		
-        	}
-            
-        }
-        if (fechaDevolucion != null)
-        {
-        	throw new OperationNotSupportedException("ERROR: el alquiler ya ha sido devuelto");
-        }
-        else
-        	throw new OperationNotSupportedException("ERROR: no puede realizarse una devolución de un alquiler nulo");
-        	
-		
-	}*/
+	
 	
 
 	

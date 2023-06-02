@@ -36,23 +36,26 @@ public class ControladorVentanaVehiculos {
 
     @FXML
     private TextField jTextFieldBuscar;
+    
+    @FXML
+    private Button jBotonInsertar;
 
-    // Lista de vehículos (debes inicializarla y mantenerla actualizada)
+    @FXML
+    private Button jBotonBorrar;
+
+
+    // Lista de vehículos 
     private ObservableList<Vehiculo> listaVehiculos;
 
     public void initialize() {
         // Configurar las columnas de la tabla
-        jColMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
-        jColMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
-        jColModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        jColMatricula.setCellValueFactory(new PropertyValueFactory<Vehiculo, String>("matricula"));
+        jColMarca.setCellValueFactory(new PropertyValueFactory<Vehiculo, String>("marca"));
+        jColModelo.setCellValueFactory(new PropertyValueFactory<Vehiculo, String>("modelo"));
         jColTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         jColDIsponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
 
-        // Configurar la lista de vehículos (puedes obtenerla de donde corresponda)
-        listaVehiculos = FXCollections.observableArrayList(
-                new Turismo("Seat", "Ibiza", 1900, "1234ABC"),
-                new Turismo("Renault", "Clio", 1300, "4536DEF"),
-                new Furgoneta("Ford", "Transit", 700, 10, "7089GHI"));
+       
 
         // Configurar la tabla con los vehículos
         jTablaV.setItems(listaVehiculos);

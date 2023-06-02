@@ -35,15 +35,19 @@
                         <TextField fx:id="jTextFieldMatricula" layoutX="186.0" layoutY="18.0" />
                         <SplitMenuButton fx:id="jSplitMenuMarca" layoutX="186.0" layoutY="58.0" mnemonicParsing="false" text="Seleccione marca">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                            <MenuItem mnemonicParsing="false" text="Seat" />
+                            <MenuItem mnemonicParsing="false" text="Land Rover" />
+                            <MenuItem mnemonicParsing="false" text="KIA" />
+                            <MenuItem mnemonicParsing="false" text="Rolls-Royce" />
+                            <MenuItem mnemonicParsing="false" text="SsangYong" />
                           </items>
                         </SplitMenuButton>
                         <TextField fx:id="jTextFieldModelo" layoutX="186.0" layoutY="99.0" />
                         <SplitMenuButton fx:id="jSplitMenuTipoV" layoutX="184.0" layoutY="143.0" mnemonicParsing="false" text="Seleccione Tipo">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                            <MenuItem mnemonicParsing="false" text="Turismo" />
+                            <MenuItem mnemonicParsing="false" text="Furgoneta" />
+                            <MenuItem mnemonicParsing="false" text="Autobús" />
                           </items>
                         </SplitMenuButton>
                         <Button fx:id="jBotonInsertar" layoutX="101.0" layoutY="201.0" mnemonicParsing="false" text="Añadir" />
