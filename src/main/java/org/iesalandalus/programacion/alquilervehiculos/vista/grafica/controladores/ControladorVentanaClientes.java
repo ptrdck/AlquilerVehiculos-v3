@@ -23,11 +23,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.iesalandalus.programacion.alquilervehiculos.modelo.Modelo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.ficheros.Clientes;
 
 public class ControladorVentanaClientes implements Initializable {
+	
+	private Modelo modelo;
 
     @FXML
     private AnchorPane JPaneCli;
@@ -121,7 +124,7 @@ public class ControladorVentanaClientes implements Initializable {
             if (alquileresCliente.isEmpty()) {
                 mostrarMensaje("ERROR:", "El cliente seleccionado no tiene alquileres registrados.");
             } else {
-                mostrarAlquileresCliente(alquileresCliente);
+                mostrarAlquileresCliente();
             }
         } else {
             mostrarMensaje("ERROR:", "Debe seleccionar un cliente antes de ver sus alquileres.");
@@ -133,27 +136,42 @@ public class ControladorVentanaClientes implements Initializable {
     	
         return new LinkedList<>(); 
     }
-    
-    private void mostrarAlquileresCliente(List<Alquiler> alquileres) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaAlquileres.fxml"));
-            Parent root = loader.load();
-
-            // Obtener el controlador de la ventana VentanaAlquileres
-            ControladorVentanaAlquileres controladorAlquileres = loader.getController();
-
-            // Configurar los alquileres del cliente seleccionado en la ventana
-            controladorAlquileres.setAlquileres(alquileres);
-
-            // Crear una nueva ventana y mostrarla
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Alquileres del Cliente");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    @FXML
+    private void mostrarAlquileresCliente(ActionEvent event) {
+        Cliente clienteSeleccionado = jTablaCli.getSelectionModel().getSelectedItem();
+        if (clienteSeleccionado != null) {
+            // Llamar al modelo para obtener los alquileres del cliente seleccionado
+            List<Alquiler> alquileresCliente = modelo.getAlquileres(clienteSeleccionado);
+            if (alquileresCliente.isEmpty()) {
+                mostrarMensaje("ERROR:", "El cliente seleccionado no tiene alquileres registrados.");
+            } else {
+                // Mostrar los alquileres en un cuadro de diálogo
+                mostrarCuadroDialogoAlquileres(alquileresCliente);
+            }
+        } else {
+            mostrarMensaje("ERROR:", "Debe seleccionar un cliente antes de ver sus alquileres.");
         }
     }
+
+
+    private void mostrarCuadroDialogoAlquileres(List<Alquiler> alquileresCliente) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Alquileres del Cliente");
+        alerta.setHeaderText(null);
+
+        // Crear el contenido del cuadro de diálogo con los alquileres
+        StringBuilder mensaje = new StringBuilder();
+        for (Alquiler alquiler : alquileresCliente) {
+            mensaje.append("Fecha: ").append(alquiler.getFechaAlquiler()).append("\n");
+            
+            // Agregar más detalles del alquiler si es necesario
+            mensaje.append("\n");
+        }
+        alerta.setContentText(mensaje.toString());
+
+        alerta.showAndWait();
+    }
+
     
     @FXML
     private void handleBotonModificar(ActionEvent event) {
