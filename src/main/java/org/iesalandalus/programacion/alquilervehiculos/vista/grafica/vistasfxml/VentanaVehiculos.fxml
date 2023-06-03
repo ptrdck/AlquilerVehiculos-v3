@@ -37,9 +37,10 @@
                           </columns>
                         </TableView>
                         <Button fx:id="jBotonInsertar" layoutX="157.0" layoutY="326.0" mnemonicParsing="false" text="Añadir" />
-                        <Button fx:id="jBotonBorrar" layoutX="350.0" layoutY="326.0" mnemonicParsing="false" text="Borrar" />
+                        <Button fx:id="jBotonBorrar" layoutX="249.0" layoutY="326.0" mnemonicParsing="false" text="Borrar" />
                         <Label fx:id="jLabelBuscar" layoutX="211.0" layoutY="286.0" text="Buscar" />
                         <TextField fx:id="jTextFieldBuscar" layoutX="257.0" layoutY="282.0" />
+                        <Button layoutX="344.0" layoutY="326.0" mnemonicParsing="false" text="Cancelar" />
                      </children>
                   </AnchorPane>
               </items>

@@ -12,10 +12,14 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.naming.OperationNotSupportedException;
+
+import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
 
 public class ControladorIngresarVehiculo implements Initializable {
-
+	
+	
     @FXML
     private Label jTituloInsV;
 
@@ -51,44 +55,56 @@ public class ControladorIngresarVehiculo implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Método para inicializar el controlador
-        // Puedes agregar código de inicialización aquí
+        
     }
 
     @FXML
-    private void onBotonInsertarClicked(ActionEvent event) {
+    private void onBotonInsertarClicked(ActionEvent event) throws OperationNotSupportedException {
+    	
+    	//se obtienen los valores ingresados por el usuario en los campos de texto jTextFieldMatricula
+    	//y jTextFieldModelo, así como los valores seleccionados en los SplitMenuButton: jSplitMenuMarca y jSplitMenuTipoV.
+    	//Estos valores se almacenan en variables correspondientes para su posterior uso.
     	String matricula = jTextFieldMatricula.getText();
         String marca = jSplitMenuMarca.getText();
         String modelo = jTextFieldModelo.getText();
         String tipoVehiculo = jSplitMenuTipoV.getText();
         
+        //Se crea una instancia del controlador ControladorVentanaVehiculos, que será utilizada más adelante
+        //para refrescar la tabla de vehículos.
         ControladorVentanaVehiculos controladorVentanaVehiculos = new ControladorVentanaVehiculos();
+        
 
         // Verificar que los campos obligatorios no estén vacíos
         if (matricula.isEmpty() || marca.isEmpty() || modelo.isEmpty() || tipoVehiculo.isEmpty()) {
             // Mostrar mensaje de error o realizar acciones correspondientes
             return;
         }
-
-        // Verificar duplicados en la lista de vehículos
-     
-        if (matricula.equals()) {
-            // Mostrar mensaje de error indicando que ya existe un vehículo con esa matrícula
-            return;
+        
+        for (Vehiculo vehiculoExistente : controladorVentanaVehiculos.listaVehiculos) {
+            if (vehiculoExistente.getMatricula().equals(matricula)) {
+                throw new OperationNotSupportedException("ERROR: No se puede insertar un mismo vehículo mas de una vez");
+            }
         }
+        
+        
 
 
         // Crear el nuevo vehículo
-        Vehiculo vehiculo = new Vehiculo(matricula, marca, modelo);
+        Vehiculo vehiculo = new Turismo(marca, modelo, 1900, matricula);
+        
+        
 
         // Agregar el vehículo a la lista en ControladorVentanaVehiculos
+        controladorVentanaVehiculos.listaVehiculos.add(vehiculo);
         
+        //agregar vehiculo a la tabla
+        controladorVentanaVehiculos.jTablaV.getItems().add(vehiculo);
 
         // Cerrar la ventana actual
         jBotonInsertar.getScene().getWindow().hide();
 
         // Refrescar la tabla de vehículos en ControladorVentanaVehiculos
-        controladorVentanaVehiculos.refrescarTablaVehiculos();
+        controladorVentanaVehiculos.refrescarTabla();
         
         
     }
@@ -105,7 +121,10 @@ public class ControladorIngresarVehiculo implements Initializable {
         // Método invocado al seleccionar un elemento del SplitMenuButton "jSplitMenuMarca"
         MenuItem menuItem = (MenuItem) event.getSource();
         String marcaSeleccionada = menuItem.getText();
-        // Agrega la lógica correspondiente para esta acción
+        
+        System.out.println("Marca: " + marcaSeleccionada);
+        
+        
     }
 
     @FXML
@@ -113,6 +132,8 @@ public class ControladorIngresarVehiculo implements Initializable {
         // Método invocado al seleccionar un elemento del SplitMenuButton "jSplitMenuTipoV"
         MenuItem menuItem = (MenuItem) event.getSource();
         String tipoSeleccionado = menuItem.getText();
-        // Agrega la lógica correspondiente para esta acción
+        
+        
+        System.out.println("Tipo de vehículo: " + tipoSeleccionado);
     }
 }
