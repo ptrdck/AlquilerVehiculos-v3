@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista.grafica.controladores;
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControladorVentanaPrincipal implements Initializable {
+public class ControladorVentanaPrincipal extends Application {
 
     @FXML
     private AnchorPane jPane;
@@ -30,9 +31,19 @@ public class ControladorVentanaPrincipal implements Initializable {
     private Button jBotonAl;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Aquí puedes agregar la lógica de inicialización de tu interfaz gráfica
-        // y establecer los manejadores de eventos para los botones, por ejemplo:
+    public void start(Stage ventanaPrincipal) {
+        
+    	try {
+    		AnchorPane root = new AnchorPane();
+    		Scene escena = new Scene(root, 400, 400);
+			ventanaPrincipal.setTitle("Ventana Principal");
+			ventanaPrincipal.setScene(escena);
+			ventanaPrincipal.show();
+    	} catch(Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	
         jBotonSalir.setOnAction(event -> {
             // Lógica para salir del programa
             System.exit(0);
@@ -99,5 +110,12 @@ public class ControladorVentanaPrincipal implements Initializable {
         )
         ;
         
+        
+    	}
+    public static void main(String[] args) {
+		launch(args);
+        
     }
+
+	
 }
