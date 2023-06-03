@@ -13,6 +13,8 @@ import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.alquilervehiculos.vista.Vista;
 
+import javafx.stage.Stage;
+
 public class VistaTexto extends Vista
 {
 	public VistaTexto()
@@ -366,6 +368,13 @@ public class VistaTexto extends Vista
 	            System.out.println(tipoVehiculo + ": " + cantidadAlquileres + " alquileres \n");
 	        }
 	    }
+	}
+
+
+	@Override
+	public void start(Stage arg0) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -10,10 +10,10 @@ public abstract class Vista extends Application
     
 
     public void setControlador(Controlador controlador) {
-        if (controlador == null) {
-            throw new NullPointerException("ERROR: El controlador no puede ser nulo");
+        if (controlador != null) {
+        	this.controlador = controlador;
         }
-        this.controlador = controlador;
+        
     }
 
     public abstract void comenzar() throws Exception;

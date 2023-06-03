@@ -13,7 +13,7 @@ import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
 public class ModeloCascada extends Modelo {
 
-	public ModeloCascada(FactoriaFuenteDatos factoriaFuenteDatos) 
+	public ModeloCascada(FactoriaFuenteDatos factoriaFuenteDatos) throws Exception 
 	{
 		super(factoriaFuenteDatos);
 		comenzar();

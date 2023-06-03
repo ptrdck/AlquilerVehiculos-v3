@@ -23,16 +23,16 @@ public class VistaGrafica extends Vista {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/iesalandalus/programacion/alquilervehiculos/vista/grafica/vistasfxml/VistaPrincipal.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/iesalandalus/programacion/alquilervehiculos/vista/grafica/vistasfxml/VentanaPrincipal.fxml"));
 		Parent raiz = fxmlLoader.load();
 		Scene escena = new Scene(raiz);
 		
-		ControladorVentanaPrincipal controlador = fxmlLoader.getController();
+		ControladorVentanaPrincipal controller = fxmlLoader.getController();
 		
 		Image icono = new Image("file:imagenes/coche_alquiler.jpeg"); 
 		stage.getIcons().add(icono); 
 		
-		stage.setTitle("Aplicación de Alquiler de Vehículos I.E.S. Al-Ándalus (Almería)");
+		stage.setTitle("Gestión de Alquiler de Vehículos");
 		stage.setScene(escena); 
 		stage.show();
 	}

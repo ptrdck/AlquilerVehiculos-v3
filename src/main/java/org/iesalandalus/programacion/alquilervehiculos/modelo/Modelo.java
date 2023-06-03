@@ -32,7 +32,7 @@ public abstract class Modelo {
         this.fuenteDatos = fuenteDatos;
     }
 
-    public void comenzar() {
+    public void comenzar() throws Exception{
         clientes = fuenteDatos.crearClientes();
         clientes.comenzar();
         

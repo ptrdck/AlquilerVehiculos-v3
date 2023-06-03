@@ -33,7 +33,7 @@ public class Controlador
 		vista.setControlador(this);
 	}
 	
-	public void comenzar()
+	public void comenzar() throws Exception
 	{
 		modelo.comenzar();
 		vista.comenzar();
