@@ -5,26 +5,37 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.iesalandalus.programacion.alquilervehiculos.modelo.Modelo;
+import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Autobus;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Furgoneta;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
 
-public class ControladorVentanaVehiculos {
+public class ControladorVentanaVehiculos implements Initializable{
+	
+	private Modelo modelo;
+	
     @FXML TableView<Vehiculo> jTablaV;
 
     @FXML
@@ -222,20 +233,37 @@ public class ControladorVentanaVehiculos {
     @FXML
     private void handleMostrarAlquilados(ActionEvent event) {
         // Filtrar la lista de vehículos para mostrar solo los que están alquilados
-        List<Vehiculo> vehiculosAlquilados = listaVehiculos.stream()
-                .filter(Vehiculo::isAlquilado)
-                .collect(Collectors.toList());
+        List<Alquiler> listaAlquileres = modelo.getAlquileres();
+       
+        List<Vehiculo> vehiculosAlquilados = new LinkedList<>();
+        
+        for (Alquiler alquiler : listaAlquileres)
+        {
+        	vehiculosAlquilados.add(alquiler.getVehiculo());
+        	
+        }
+        
+                
 
         // Actualizar la tabla con los vehículos alquilados
-        jTablaV.setItems(FXCollections.observableArrayList(vehiculosAlquilados));
+        jTablaV.setItems(FXCollections.observableArrayList(listaVehiculos));
     }
 
     @FXML
     private void handleMostrarDisponibles(ActionEvent event) {
         // Filtrar la lista de vehículos para mostrar solo los que están disponibles
-        List<Vehiculo> vehiculosDisponibles = listaVehiculos.stream()
-                .filter(vehiculo -> !vehiculo.isAlquilado())
-                .collect(Collectors.toList());
+        List<Alquiler> listaAlquileres = modelo.getAlquileres();
+        List<Vehiculo> listaVehiculos = modelo.getVehiculos();
+        List<Vehiculo> vehiculosDisponibles = new LinkedList<>();
+        
+        for (Vehiculo vehiculo : listaVehiculos)
+        {
+        	if(listaAlquileres.contains(vehiculo))
+        	{
+        		vehiculosDisponibles.add(vehiculo);
+        	}
+        	
+        }
 
         // Actualizar la tabla con los vehículos disponibles
         jTablaV.setItems(FXCollections.observableArrayList(vehiculosDisponibles));
@@ -243,18 +271,25 @@ public class ControladorVentanaVehiculos {
 
     private void actualizarDisponibilidadVehiculos() {
         // Obtener la lista de alquileres activos
-        List<Alquiler> alquileresActivos = // Obtener la lista de alquileres activos
-
-        // Actualizar la disponibilidad de cada vehículo en base a los alquileres activos
-        for (Vehiculo vehiculo : listaVehiculos) {
-            boolean alquilado = alquileresActivos.stream()
-                    .anyMatch(alquiler -> alquiler.getVehiculo().equals(vehiculo));
-            vehiculo.setAlquilado(alquilado);
+        List<Alquiler> alquileres = modelo.getAlquileres();
+        
+        List<Vehiculo> vehiculosDisponibles = new LinkedList<>();
+        for(Alquiler alquiler : alquileres)
+        {
+        	if(alquiler.getFechaDevolucion() == null)
+        	{
+        		vehiculosDisponibles.add(alquiler.getVehiculo());
+        		
+        	}
         }
+
+        
+            
 
         // Actualizar la tabla
         jTablaV.refresh();
     }
+
 
     private void configurarIconoDisponibilidad() {
         jColDIsponible.setCellFactory(column -> new TableCell<Vehiculo, Boolean>() {
@@ -297,4 +332,10 @@ public class ControladorVentanaVehiculos {
         // Actualizar la tabla con los vehículos ordenados
         jTablaV.setItems(listaVehiculos);
     }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
+	}
 }

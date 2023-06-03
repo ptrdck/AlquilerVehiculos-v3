@@ -55,7 +55,7 @@ public class ControladorIngresarClientes implements Initializable {
         // Agregar el cliente a la lista de la ventana VentanaClientes
         // Puedes obtener la referencia a la instancia de VentanaClientes y usar un método para agregar el cliente
         ControladorVentanaClientes controladorVentanaClientes = new ControladorVentanaClientes();
-        controladorVentanaClientes.getInstance().agregarCliente(nuevoCliente);
+        controladorVentanaClientes.agregarCliente(nuevoCliente);
 
         // Mostrar mensaje de éxito
         mostrarMensajeExito("Cliente agregado", "El cliente ha sido agregado con éxito.");

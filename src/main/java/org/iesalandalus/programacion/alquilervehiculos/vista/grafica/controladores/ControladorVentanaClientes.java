@@ -59,16 +59,6 @@ public class ControladorVentanaClientes implements Initializable {
     
     private ObservableList<Cliente> listaClientes;
     
-    private static ControladorVentanaClientes instancia;
-
-    public static ControladorVentanaClientes getInstance() 
-    {
-        if (instancia == null) {
-            instancia = new ControladorVentanaClientes();
-        }
-        return instancia;
-    }
-    
    
     
     private void actualizarVentanaClientes() {
@@ -132,12 +122,22 @@ public class ControladorVentanaClientes implements Initializable {
     }
     
     private List<Alquiler> obtenerAlquileresCliente(Cliente cliente) {
-     
+    	List<Alquiler> listaAlquileres = modelo.getAlquileres();
+    	List<Alquiler> listaAlquilerCliente = new LinkedList<>();
+    	for(Alquiler a : listaAlquileres)
+    	{
+    		if (a.getCliente().getDni().equals(cliente.getDni()))
+    				{
+    			listaAlquilerCliente.add(a);
+    			
+    			
+    				}
+    	}
     	
-        return new LinkedList<>(); 
+        return listaAlquilerCliente;
     }
     @FXML
-    private void mostrarAlquileresCliente(ActionEvent event) {
+    private void mostrarAlquileresCliente() {
         Cliente clienteSeleccionado = jTablaCli.getSelectionModel().getSelectedItem();
         if (clienteSeleccionado != null) {
             // Llamar al modelo para obtener los alquileres del cliente seleccionado

@@ -132,8 +132,8 @@ public class ControladorVentanaAlquileres implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org.iesalandalus.programacion.alquilervehiculos.vista.grafica.vistasfxml/VentanaIngresarAlquiler.fxml"));
             Parent root = loader.load();
             
-            ControladorVentanaIngresarAlquiler controlador = loader.getController();
-            controlador.setControladorVentanaAlquileres(this);
+            ControladorIngresarAlquiler controlador = loader.getController();
+            
             
             Stage ventanaIngresarAlquiler = new Stage();
             ventanaIngresarAlquiler.setTitle("Ingresar Alquiler");
