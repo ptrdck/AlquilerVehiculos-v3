@@ -5,8 +5,6 @@ import org.iesalandalus.programacion.alquilervehiculos.modelo.FactoriaFuenteDato
 import org.iesalandalus.programacion.alquilervehiculos.modelo.Modelo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.ModeloCascada;
 import org.iesalandalus.programacion.alquilervehiculos.vista.FactoriaVistas;
-import org.iesalandalus.programacion.alquilervehiculos.vista.Vista;
-import org.iesalandalus.programacion.alquilervehiculos.vista.grafica.VistaGrafica;
 
 
 /**
@@ -22,19 +20,21 @@ public class MainApp {
 	{
 		try
 		{
+			
 			FactoriaVistas vista = FactoriaVistas.GRAFICOS;
+			FactoriaFuenteDatos fuenteDatos = FactoriaFuenteDatos.FICHEROS;
+			Modelo modelo = new ModeloCascada(fuenteDatos);
 			
-			
-			Modelo modelo = new ModeloCascada(FactoriaFuenteDatos.FICHEROS);
 			Controlador controlador = new Controlador(modelo, vista.crear());
-			
 			controlador.comenzar();
+			
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e.getMessage());
 		}
 		
 	}
+	
 
 }

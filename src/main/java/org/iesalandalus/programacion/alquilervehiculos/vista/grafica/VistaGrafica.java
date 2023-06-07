@@ -23,7 +23,7 @@ public class VistaGrafica extends Vista {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/iesalandalus/programacion/alquilervehiculos/vista/grafica/vistasfxml/VentanaPrincipal.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AlquilerVehiculos-v3/src/main/java/org/iesalandalus/programacion/alquilervehiculos/vista/grafica/vistasfxml/VentanaPrincipal.fxml"));
 		Parent raiz = fxmlLoader.load();
 		Scene escena = new Scene(raiz);
 		

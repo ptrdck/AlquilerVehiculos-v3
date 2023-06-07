@@ -11,12 +11,12 @@ import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.IFuenteDatos;
 public class ModeloCascada extends Modelo {
 
 	public ModeloCascada(FactoriaFuenteDatos factoriaFuenteDatos) throws Exception 
 	{
 		super(factoriaFuenteDatos);
-		comenzar();
 	}
 
 	@Override
